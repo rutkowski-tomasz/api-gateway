@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Gateway", "src\Api.Gateway\Api.Gateway.csproj", "{C340F6B1-AF5F-4177-B2E7-988424592224}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A5CD1E29-F6C6-447B-B864-167EA59D8EAA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DE6D606E-5921-493C-8099-7BE138986A86}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
+		Dockerfile = Dockerfile
+		LICENSE = LICENSE
+		README.md = README.md
+		requests.http = requests.http
+		compose.yml = compose.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C340F6B1-AF5F-4177-B2E7-988424592224}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C340F6B1-AF5F-4177-B2E7-988424592224}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C340F6B1-AF5F-4177-B2E7-988424592224}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C340F6B1-AF5F-4177-B2E7-988424592224}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C340F6B1-AF5F-4177-B2E7-988424592224} = {A5CD1E29-F6C6-447B-B864-167EA59D8EAA}
+	EndGlobalSection
+EndGlobal
