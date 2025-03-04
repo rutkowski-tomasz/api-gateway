@@ -2,3 +2,9 @@
 
 ### Health Check
 GET {{BaseUrl}}/health
+
+###
+GET {{BaseUrl}}/api1/metadata
+
+###
+GET {{BaseUrl}}/api2/metadata

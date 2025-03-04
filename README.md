@@ -2,4 +2,10 @@
 
 // TODO: Add description
 
-// TODO: Add Development section
+
+## 👨🏻‍💻 Development
+
+```sh
+docker buildx build . -t ghcr.io/rutkowski-tomasz/api-gateway:alpha001
+docker-compose -f compose.yml up --build 
+```
