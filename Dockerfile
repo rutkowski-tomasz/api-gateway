@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y curl
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG PROJECT_NAME
 WORKDIR /build
+COPY [".editorconfig", "./"]
 COPY ["src/*/*.csproj", "./"]
 RUN for file in $(ls *.csproj); do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; done
 RUN dotnet restore "src/${PROJECT_NAME}/${PROJECT_NAME}.csproj"
