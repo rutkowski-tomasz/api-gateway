@@ -9,7 +9,7 @@ public class GatewayIntegrationTests(IntegrationTestFactory factory)
     public async Task Api1_Metadata_Returns_Expected_Version()
     {
         // Act
-        var response = await factory.Client.GetAsync("/api1/metadata");
+        var response = await factory.Client.GetAsync("/api3/metadata");
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);

@@ -26,8 +26,8 @@ public class IntegrationTestFactory : IAsyncLifetime
             "request": { "method": "GET", "url": "/metadata" },
             "response": {
                 "status": 200,
-                "jsonBody": "api1",
-                "headers": { "Content-Type": "application/json" }
+                "body": "api1",
+                "headers": { "Content-Type": "text/plain" }
             }
         }
         """);
@@ -70,10 +70,10 @@ public class IntegrationTestFactory : IAsyncLifetime
             .WithEnvironment(new Dictionary<string, string>
             {
                 {"ASPNETCORE_ENVIRONMENT", "Production"},
-                {"ReverseProxy__Routes__api1-route__ClusterId", "api1-cluster"},
-                {"ReverseProxy__Routes__api1-route__Match__Path", "api1/{**catch-all}"},
-                {"ReverseProxy__Routes__api1-route__Transforms__0__PathPattern", "{**catch-all}"},
-                {"ReverseProxy__Clusters__api1-cluster__Destinations__destination1__Address", "http://api1:8080"}
+                {"ReverseProxy__Routes__X1__ClusterId", "X1"},
+                {"ReverseProxy__Routes__X1__Match__Path", "api3/{**catch-all}"},
+                {"ReverseProxy__Routes__X1__Transforms__0__PathPattern", "{**catch-all}"},
+                {"ReverseProxy__Clusters__X1__Destinations__destination1__Address", "http://api1:8080"},
             })
             .WithNetwork(network)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))

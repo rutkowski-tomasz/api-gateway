@@ -4,7 +4,7 @@ services:
     container_name: gateway
     build: .
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - 80:80
       - 443:443
