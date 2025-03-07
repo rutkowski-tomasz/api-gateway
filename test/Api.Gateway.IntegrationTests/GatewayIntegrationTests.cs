@@ -2,14 +2,14 @@ using System.Net;
 
 namespace Api.Gateway.IntegrationTests;
 
-public class GatewayIntegrationTests(IntegrationTestWebAppFactory factory)
-    : IClassFixture<IntegrationTestWebAppFactory>
+public class GatewayIntegrationTests(IntegrationTestFactory factory)
+    : IClassFixture<IntegrationTestFactory>
 {
     [Fact]
     public async Task Api1_Metadata_Returns_Expected_Version()
     {
         // Act
-        var response = await factory.HttpClient.GetAsync("/api1/metadata");
+        var response = await factory.Client.GetAsync("/api1/metadata");
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
