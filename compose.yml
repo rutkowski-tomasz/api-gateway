@@ -1,13 +1,11 @@
 services:
   gateway:
-    image: ghcr.io/rutkowski-tomasz/api-gateway:v0.0.1
+    image: ghcr.io/rutkowski-tomasz/api-gateway:latest
     container_name: gateway
     build: .
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
-      - VERSION=v0.0.1
-      - ENVIRONMENT=prod
     ports:
       - 80:80
       - 443:443
@@ -16,11 +14,11 @@ services:
     
   api1:
     container_name: api1
-    image: ghcr.io/rutkowski-tomasz/sample-api:alpha002
+    image: ghcr.io/rutkowski-tomasz/sample-api:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
-      - VERSION=alpha002-api1
+      - VERSION=latest
       - ENVIRONMENT=prod
       - COGNITO_USERPOOL_ID=eu-central-1_0nZs7Q8yU
       - COGNITO_CLIENT_ID=3sg1ii35h1pg3j268mr3smcnro
@@ -29,11 +27,11 @@ services:
 
   api2:
     container_name: api2
-    image: ghcr.io/rutkowski-tomasz/sample-api:alpha002
+    image: ghcr.io/rutkowski-tomasz/sample-api:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
-      - VERSION=alpha002-api2
+      - VERSION=latest
       - ENVIRONMENT=prod
       - COGNITO_USERPOOL_ID=eu-central-1_0nZs7Q8yU
       - COGNITO_CLIENT_ID=3sg1ii35h1pg3j268mr3smcnro

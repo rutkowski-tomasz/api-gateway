@@ -6,14 +6,10 @@ builder.Services
 
 var app = builder.Build();
 
-app.MapGet("/health", () => new
-{
-    Version = Environment.GetEnvironmentVariable("VERSION"),
-    Environment = Environment.GetEnvironmentVariable("ENVIRONMENT"),
-    HostName = Environment.GetEnvironmentVariable("HOSTNAME"),
-    Environment.MachineName
-});
+app.MapGet("/health", () => Results.Ok());
 
 app.MapReverseProxy();
 
 app.Run();
+
+public partial class Program;
