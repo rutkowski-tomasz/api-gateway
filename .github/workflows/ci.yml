@@ -9,6 +9,32 @@ env:
   PushImage: ${{ github.ref == 'refs/heads/main' }}
 
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Test
+        run: dotnet test --collect:"XPlat Code Coverage" *.sln
+
+      - name: Generate report
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.4.3
+        with:
+          reports: 'test/*Test*/TestResults/*/coverage.cobertura.xml'
+          targetdir: 'CoverageReports'
+          reporttypes: 'MarkdownSummaryGithub'
+          filefilters: '-*/Migrations/*'
+
+      - name: Publish coverage in build summary
+        run: cat CoverageReports/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+
   image:
     name: Container Image
     permissions:
