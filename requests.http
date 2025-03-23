@@ -5,6 +5,7 @@ GET {{BaseUrl}}/health
 
 ###
 GET {{BaseUrl}}/api1/echo
+Accept-Encoding:
 X-Custom-Header: override-custom-header
 
 ###

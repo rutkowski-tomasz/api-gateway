@@ -13,12 +13,13 @@ public class IntegrationTestFactory : IAsyncLifetime
     private IContainer? api1Container;
     private IFutureDockerImage? gatewayImage;
     private IContainer? gatewayContainer;
+    private readonly string id = Guid.NewGuid().ToString("N");
     public HttpClient Client { get; private set; } = new();
 
     public async Task InitializeAsync()
     {
         network = new NetworkBuilder()
-            .WithName($"integration-tests-network")
+            .WithName($"integration-tests-network-{id}")
             .WithDriver(NetworkDriver.Bridge)
             .Build();
 
@@ -29,12 +30,12 @@ public class IntegrationTestFactory : IAsyncLifetime
 
         api1Container = new ContainerBuilder()
             .WithImage("wiremock/wiremock:latest")
-            .WithName("integration-tests-api1")
+            .WithName($"integration-tests-api1-{id}")
             .WithEnvironment(new Dictionary<string, string> { { "wiremock.service_name", "api1" } })
             .WithBindMount(wiremockMappingsDir, "/home/wiremock")
             .WithCommand("--port", "80", "--verbose", "--global-response-templating")
             .WithNetwork(network)
-            .WithNetworkAliases("integration-tests-api1")
+            .WithNetworkAliases($"integration-tests-api1-{id}")
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))
             .Build();
 
@@ -49,7 +50,7 @@ public class IntegrationTestFactory : IAsyncLifetime
 
         gatewayContainer = new ContainerBuilder()
             .WithImage(gatewayImage)
-            .WithName($"integration-tests-api-gateway")
+            .WithName($"integration-tests-api-gateway-{id}")
             .WithPortBinding(80, true)
             .WithEnvironment(new Dictionary<string, string>
             {
@@ -57,7 +58,7 @@ public class IntegrationTestFactory : IAsyncLifetime
                 {"ReverseProxy__Routes__X1__ClusterId", "X1"},
                 {"ReverseProxy__Routes__X1__Match__Path", "integration-tests-api1/{**catch-all}"},
                 {"ReverseProxy__Routes__X1__Transforms__0__PathPattern", "{**catch-all}"},
-                {"ReverseProxy__Clusters__X1__Destinations__destination1__Address", "http://integration-tests-api1"},
+                {"ReverseProxy__Clusters__X1__Destinations__destination1__Address", $"http://integration-tests-api1-{id}"},
             })
             .WithNetwork(network)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))

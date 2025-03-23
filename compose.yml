@@ -18,7 +18,7 @@ services:
       - wiremock.service_name=api1
     volumes:
       - ./wiremock:/home/wiremock
-    command: ["--port", "80", "--verbose", "--global-response-templating"]
+    command: ["--port", "80", "--verbose", "--global-response-templating", "--disable-gzip"]
     networks:
       - proxynetwork
 
@@ -29,7 +29,7 @@ services:
       - wiremock.service_name=api2
     volumes:
       - ./wiremock:/home/wiremock
-    command: ["--port", "80", "--verbose", "--global-response-templating"]
+    command: ["--port", "80", "--verbose", "--global-response-templating", "--disable-gzip"]
     networks:
       - proxynetwork
 

@@ -1,4 +1,5 @@
 using System.Net;
+using System.IO.Compression;
 
 namespace Api.Gateway.IntegrationTests;
 

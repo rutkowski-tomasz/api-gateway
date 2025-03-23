@@ -8,6 +8,7 @@ Built with .NET 9 and YARP, designed to route and manage traffic to multiple mic
 
 - Reverse proxy functionality
 - Multiple service, path-based routing
+- Response compression
 - Docker support
 - CI integration
 
