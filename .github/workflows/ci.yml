@@ -37,6 +37,7 @@ jobs:
 
   image:
     name: Container Image
+    needs: [test]
     permissions:
       contents: write
       packages: write

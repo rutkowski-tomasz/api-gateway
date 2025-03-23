@@ -23,11 +23,15 @@ public class IntegrationTestFactory : IAsyncLifetime
 
         File.WriteAllText($"{mappingDirectory}/{Guid.NewGuid():N}.json", """
         {
-            "request": { "method": "GET", "url": "/metadata" },
+            "request": { "method": "GET", "url": "/echo" },
             "response": {
                 "status": 200,
                 "body": "api1",
-                "headers": { "Content-Type": "text/plain" }
+                "headers": {
+                    "Content-Type": "text/plain",
+                    "X-Custom-Header": "custom-header",
+                    "X-Custom-Passthrough-Header": "{{request.headers.X-Custom-Passthrough-Header}}"
+                }
             }
         }
         """);
