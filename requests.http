@@ -1,29 +1,12 @@
 @BaseUrl = http://localhost:80
-@AccessToken = eyJraWQiOiJIWmNQSzNNK2FvcXpmT2R3MVwvQkdGNFR0dlBxSFRVYXhQXC9EMTNrOU5SRkU9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI1M2Y0MTgyMi01MDUxLTcwYTgtOWM2Mi02ZmM4MjdhNDlhYjQiLCJjb2duaXRvOmdyb3VwcyI6WyJldS1jZW50cmFsLTFfMG5aczdROHlVX0dvb2dsZSIsImFkbWluIl0sImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbVwvZXUtY2VudHJhbC0xXzBuWnM3UTh5VSIsInZlcnNpb24iOjIsImNsaWVudF9pZCI6IjNzZzFpaTM1aDFwZzNqMjY4bXIzc21jbnJvIiwib3JpZ2luX2p0aSI6ImI1OGM5NDczLWZkNDYtNDY3MS05MDU2LTAwMWY2MjZlOTcyYSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJhdXRoX3RpbWUiOjE3NDExMDgyMTYsImV4cCI6MTc0MTExMTgxNiwiaWF0IjoxNzQxMTA4MjE2LCJqdGkiOiJmMmQ0ZWE1NC1jN2FjLTQ0YjUtYWViZi0zNDBhOTg4NDkyODAiLCJ1c2VybmFtZSI6Imdvb2dsZV8xMTczMzI0NTc0OTM1NDcwMjgzMTkifQ.Mn0Wjquxf8B3E8G67zYLtvjiupL_CI3gzCbu62NFRLOlA2oLDOiFxbwOY1RAyCIhgo3DHw_AW8KlwEeeCVL59IqjcMTQTPOGzr55O8DGE6fsQL62fG1uRBcA6qIU8H1Fivm195RObES9eEZ2y3zPcgnFGllZaHxy26Rrbjw8eoiT39lKERQ6gmuD7hsSRzqWaX94KH41-y2m3bIwsVL4ejbinhTro9NbAkcSenEUBb1R5GPb37nXtKI0VictEAZfZxEYdI36XRNOvN5_bdMk6chyHyNj7hFElTOeM6eFMay1FJIQ5SaNQ9Bituip5sQaJpj4jDOLNp9fy50bDrkW3A
 
-### Health Check
+###
 GET {{BaseUrl}}/health
 
 ###
-GET {{BaseUrl}}/api1/metadata
+GET {{BaseUrl}}/api1/echo
+X-Custom-Header: override-custom-header
 
 ###
-POST {{BaseUrl}}/api1/test?query=MyQuery
-Authorization: Bearer {{AccessToken}}
-Content-Type: application/json
-
-{
-    "Value": "MyValue"
-}
-
-###
-GET {{BaseUrl}}/api2/metadata
-
-###
-POST {{BaseUrl}}/api2/test?query=MyQuery
-Authorization: Bearer {{AccessToken}}
-Content-Type: application/json
-
-{
-    "Value": "MyValue"
-}
+GET {{BaseUrl}}/api2/echo
+X-Custom-Header: override-custom-header

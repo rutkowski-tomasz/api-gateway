@@ -16,6 +16,5 @@ Built with .NET 9 and YARP, designed to route and manage traffic to multiple mic
 
 ```sh
 dotnet test # Run tests
-dotnet run --project src/Api.Gateway # Run locally
-docker-compose -f compose.yml up --build # Run locally in docker 
+docker-compose -f compose.yml up --build # Run locally
 ```

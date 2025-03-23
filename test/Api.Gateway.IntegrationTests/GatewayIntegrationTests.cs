@@ -29,19 +29,19 @@ public class GatewayIntegrationTests(IntegrationTestFactory factory)
     public async Task DownStreamApi_ShouldReturnOk()
     {
         // Act
-        var response = await factory.Client.GetAsync("/api3/echo");
+        var response = await factory.Client.GetAsync("/integration-tests-api1/echo");
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var content = await response.Content.ReadAsStringAsync();
-        content.ShouldBe("api1");
+        content.ShouldBe("Hello world!");
     }
 
     [Fact]
     public async Task DownStreamApi_ShouldReturnNotFound()
     {
         // Act
-        var response = await factory.Client.GetAsync("/api3/non-existing");
+        var response = await factory.Client.GetAsync("/integration-tests-api1/non-existing");
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
@@ -51,21 +51,33 @@ public class GatewayIntegrationTests(IntegrationTestFactory factory)
     public async Task DownStreamApi_ShouldReturnCustomHeader()
     {
         // Act
-        var response = await factory.Client.GetAsync("/api3/echo");
+        var response = await factory.Client.GetAsync("/integration-tests-api1/echo");
 
         // Assert
         response.Headers.GetValues("X-Custom-Header").ShouldBe(["custom-header"]);
     }
 
     [Fact]
-    public async Task DownStreamApi_ShouldReturnCustomPassthroughHeader()
+    public async Task DownStreamApi_ShouldReturnPassthroughHeaderFromRequest()
     {
+        // Arrange
+        var request = new HttpRequestMessage(HttpMethod.Get, "/integration-tests-api1/echo");
+        request.Headers.Add("X-Custom-Header", "my-overriden-custom-header");
+
         // Act
-        var request = new HttpRequestMessage(HttpMethod.Get, "/api3/echo");
-        request.Headers.Add("X-Custom-Passthrough-Header", "my-custom-header");
         var response = await factory.Client.SendAsync(request);
 
         // Assert
-        response.Headers.GetValues("X-Custom-Passthrough-Header").ShouldBe(["my-custom-header"]);
+        response.Headers.GetValues("X-Custom-Header").ShouldBe(["my-overriden-custom-header"]);
+    }
+    
+    [Fact]
+    public async Task DownStreamApi_ShouldReturnServiceName()
+    {
+        // Act
+        var response = await factory.Client.GetAsync("/integration-tests-api1/echo");
+
+        // Assert
+        response.Headers.GetValues("X-Service-Name").ShouldBe(["api1"]);
     }
 }
