@@ -1,0 +1,15 @@
+{
+    "request": { 
+        "method": "GET", 
+        "url": "/echo" 
+    },
+    "response": {
+        "status": 200,
+        "body": "Hello world!",
+        "headers": {
+            "Content-Type": "text/plain",
+            "X-Custom-Header": "{{val request.headers.X-Custom-Header or='custom-header'}}",
+            "X-Service-Name": "{{systemValue key='wiremock.service_name'}}"
+        }
+    }
+}

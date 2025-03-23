@@ -1,4 +1,17 @@
+
+// using Microsoft.AspNetCore.ResponseCompression;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// builder.Services.AddResponseCompression(options =>
+// {
+//     options.EnableForHttps = true;
+//     options.Providers.Add<GzipCompressionProvider>();
+// });
+
+// builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+//     options.Level = System.IO.Compression.CompressionLevel.Fastest
+// );
 
 builder.Services
     .AddReverseProxy()
