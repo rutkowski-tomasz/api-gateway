@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		compose.yml = compose.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0D0247B4-ABB6-47FF-9C14-FCB3D2136E6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Gateway.IntegrationTests", "test\Api.Gateway.IntegrationTests\Api.Gateway.IntegrationTests.csproj", "{608BB4C3-D9CD-4F66-9C69-62FE1AAFC03D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,8 +36,13 @@ Global
 		{C340F6B1-AF5F-4177-B2E7-988424592224}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C340F6B1-AF5F-4177-B2E7-988424592224}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C340F6B1-AF5F-4177-B2E7-988424592224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{608BB4C3-D9CD-4F66-9C69-62FE1AAFC03D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{608BB4C3-D9CD-4F66-9C69-62FE1AAFC03D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{608BB4C3-D9CD-4F66-9C69-62FE1AAFC03D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{608BB4C3-D9CD-4F66-9C69-62FE1AAFC03D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C340F6B1-AF5F-4177-B2E7-988424592224} = {A5CD1E29-F6C6-447B-B864-167EA59D8EAA}
+		{608BB4C3-D9CD-4F66-9C69-62FE1AAFC03D} = {0D0247B4-ABB6-47FF-9C14-FCB3D2136E6F}
 	EndGlobalSection
 EndGlobal

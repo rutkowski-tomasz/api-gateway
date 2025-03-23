@@ -1,11 +1,21 @@
 # 🔀 Api.Gateway
 
-// TODO: Add description
+Lightweight performant API Gateway 
+
+Built with .NET 9 and YARP, designed to route and manage traffic to multiple microservices within docker/kubernetes network.
+
+## 🚀 Features
+
+- Reverse proxy functionality
+- Multiple service, path-based routing
+- Docker support
+- CI integration
 
 
 ## 👨🏻‍💻 Development
 
 ```sh
-docker buildx build . -t ghcr.io/rutkowski-tomasz/api-gateway:alpha001
-docker-compose -f compose.yml up --build 
+dotnet test # Run tests
+dotnet run --project src/Api.Gateway # Run locally
+docker-compose -f compose.yml up --build # Run locally in docker 
 ```
