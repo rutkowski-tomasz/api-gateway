@@ -22,18 +22,7 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Test
-        run: dotnet test --collect:"XPlat Code Coverage" *.sln
-
-      - name: Generate report
-        uses: danielpalme/ReportGenerator-GitHub-Action@5.4.3
-        with:
-          reports: 'test/*Test*/TestResults/*/coverage.cobertura.xml'
-          targetdir: 'CoverageReports'
-          reporttypes: 'MarkdownSummaryGithub'
-          filefilters: '-*/Migrations/*'
-
-      - name: Publish coverage in build summary
-        run: cat CoverageReports/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+        run: dotnet test
 
   image:
     name: Container Image
