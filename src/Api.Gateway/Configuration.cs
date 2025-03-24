@@ -18,4 +18,5 @@ public record CompressionOptions
 public record ServiceOptions
 {
     public string Name { get; init; }
+    public string? Prefix { get; init; }
 }

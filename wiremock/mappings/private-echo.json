@@ -9,7 +9,8 @@
         "headers": {
             "Content-Type": "text/plain",
             "X-Custom-Header": "{{val request.headers.X-Custom-Header or='custom-header'}}",
-            "X-Service-Name": "{{systemValue key='wiremock.service_name'}}"
+            "X-Service-Name": "{{systemValue key='wiremock.service_name'}}",
+            "X-Access": "private"
         }
     }
 }

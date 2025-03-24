@@ -10,12 +10,14 @@ public class IntegrationTestFactory : IAsyncLifetime
 {
     private INetwork? network;
     private IContainer? api1Container;
+    private IContainer? api2Container;
     private IFutureDockerImage? gatewayImage;
     private IContainer? gatewayContainer;
     private readonly string id = Guid.NewGuid().ToString("N");
 
     public HttpClient Client { get; private set; }
     public string Api1Name { get; private set; }
+    public string Api2Name { get; private set; }
 
     public async Task InitializeAsync()
     {
@@ -43,6 +45,20 @@ public class IntegrationTestFactory : IAsyncLifetime
 
         await api1Container.StartAsync();
 
+        Api2Name = $"integration-tests-api2-{id}";
+        api2Container = new ContainerBuilder()
+            .WithImage("wiremock/wiremock:latest")
+            .WithName(Api2Name)
+            .WithEnvironment(new Dictionary<string, string> { { "wiremock.service_name", "api2" } })
+            .WithBindMount(wiremockMappingsDir, "/home/wiremock")
+            .WithCommand("--port", "80", "--verbose", "--global-response-templating")
+            .WithNetwork(network)
+            .WithNetworkAliases(Api2Name)
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))
+            .Build();
+
+        await api2Container.StartAsync();
+
         gatewayImage = new ImageFromDockerfileBuilder()
             .WithDockerfileDirectory(CommonDirectoryPath.GetSolutionDirectory(), string.Empty)
             .WithDockerfile("Dockerfile")
@@ -59,6 +75,8 @@ public class IntegrationTestFactory : IAsyncLifetime
                 {"ASPNETCORE_ENVIRONMENT", "Production"},
                 {"Gateway__Compression__Level", "Fastest"},
                 {"Gateway__Services__0__Name", Api1Name },
+                {"Gateway__Services__1__Name", Api2Name },
+                {"Gateway__Services__1__Prefix", "public"},
             })
             .WithNetwork(network)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))
@@ -78,6 +96,7 @@ public class IntegrationTestFactory : IAsyncLifetime
         await (gatewayContainer?.DisposeAsync() ?? ValueTask.CompletedTask);
         await (gatewayImage?.DisposeAsync() ?? ValueTask.CompletedTask);
         await (api1Container?.DisposeAsync() ?? ValueTask.CompletedTask);
+        await (api2Container?.DisposeAsync() ?? ValueTask.CompletedTask);
         await (network?.DisposeAsync() ?? ValueTask.CompletedTask);
         Client.Dispose();
     }

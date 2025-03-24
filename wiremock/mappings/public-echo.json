@@ -1,0 +1,13 @@
+{
+    "request": { 
+        "method": "GET", 
+        "url": "/public/echo" 
+    },
+    "response": {
+        "status": 200,
+        "body": "Hello world!",
+        "headers": {
+            "X-Access": "public"
+        }
+    }
+}

@@ -6,35 +6,46 @@ internal static class ReverseProxyModule
 {
     public static void AddReverseProxyModule(this IServiceCollection services, GatewayOptions gatewayOptions)
     {
-        var routes = gatewayOptions.Services.Select(x => new RouteConfig()
+        var routes = new List<RouteConfig>();
+        var clusters = new List<ClusterConfig>();
+        foreach (var service in gatewayOptions.Services)
         {
-            RouteId = $"{x.Name}-route",
-            ClusterId = $"{x.Name}-cluster",
-            Match = new RouteMatch
-            {
-                Path = $"{x.Name}/{{**catch-all}}"
-            },
-            Transforms =
-            [
-                new Dictionary<string, string>
-                {
-                    ["PathPattern"] = "{**catch-all}"
-                }
-            ]
-        }).ToList();
+            var clusterId = $"{service.Name}-cluster";
+            var prefix = !string.IsNullOrEmpty(service.Prefix) ? $"/{service.Prefix}" : string.Empty;
+            var destinationAddress = $"http://{service.Name}{prefix}";
 
-        var clusters = gatewayOptions.Services.Select(x => new ClusterConfig()
-        {
-            ClusterId = $"{x.Name}-cluster",
-            Destinations = new Dictionary<string, DestinationConfig>
+            routes.Add(new RouteConfig()
             {
-                { "destination1", new DestinationConfig()
+                RouteId = $"{service.Name}-route",
+                ClusterId = clusterId,
+                Match = new RouteMatch
+                {
+                    Path = $"{service.Name}/{{**catch-all}}"
+                },
+                Transforms =
+                [
+                    new Dictionary<string, string>
                     {
-                        Address = $"http://{x.Name}"
+                        ["PathPattern"] = "{**catch-all}"
+                    }
+                ]
+            });
+
+            clusters.Add(new ClusterConfig()
+            {
+                ClusterId = clusterId,
+                Destinations = new Dictionary<string, DestinationConfig>
+                {
+                    {
+                        "destination1",
+                        new DestinationConfig()
+                        {
+                            Address = destinationAddress
+                        }
                     }
                 }
-            }
-        }).ToList();
+            });
+        }
 
         services
             .AddReverseProxy()
