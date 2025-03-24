@@ -30,7 +30,7 @@ public class GatewayIntegrationTests(IntegrationTestFactory factory)
     public async Task DownStreamApi_ShouldReturnOk()
     {
         // Act
-        var response = await factory.Client.GetAsync("/integration-tests-api1/echo");
+        var response = await factory.Client.GetAsync($"{factory.Api1Name}/echo");
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -42,7 +42,7 @@ public class GatewayIntegrationTests(IntegrationTestFactory factory)
     public async Task DownStreamApi_ShouldReturnNotFound()
     {
         // Act
-        var response = await factory.Client.GetAsync("/integration-tests-api1/non-existing");
+        var response = await factory.Client.GetAsync("non-existing");
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
@@ -52,7 +52,7 @@ public class GatewayIntegrationTests(IntegrationTestFactory factory)
     public async Task DownStreamApi_ShouldReturnCustomHeader()
     {
         // Act
-        var response = await factory.Client.GetAsync("/integration-tests-api1/echo");
+        var response = await factory.Client.GetAsync($"{factory.Api1Name}/echo");
 
         // Assert
         response.Headers.GetValues("X-Custom-Header").ShouldBe(["custom-header"]);
@@ -62,7 +62,7 @@ public class GatewayIntegrationTests(IntegrationTestFactory factory)
     public async Task DownStreamApi_ShouldReturnPassthroughHeaderFromRequest()
     {
         // Arrange
-        var request = new HttpRequestMessage(HttpMethod.Get, "/integration-tests-api1/echo");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"{factory.Api1Name}/echo");
         request.Headers.Add("X-Custom-Header", "my-overriden-custom-header");
 
         // Act
@@ -76,7 +76,7 @@ public class GatewayIntegrationTests(IntegrationTestFactory factory)
     public async Task DownStreamApi_ShouldReturnServiceName()
     {
         // Act
-        var response = await factory.Client.GetAsync("/integration-tests-api1/echo");
+        var response = await factory.Client.GetAsync($"{factory.Api1Name}/echo");
 
         // Assert
         response.Headers.GetValues("X-Service-Name").ShouldBe(["api1"]);

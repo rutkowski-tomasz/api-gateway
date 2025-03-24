@@ -3,7 +3,6 @@ using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Images;
 using DotNet.Testcontainers.Networks;
-using System.Net;
 
 namespace Api.Gateway.IntegrationTests;
 
@@ -14,7 +13,9 @@ public class IntegrationTestFactory : IAsyncLifetime
     private IFutureDockerImage? gatewayImage;
     private IContainer? gatewayContainer;
     private readonly string id = Guid.NewGuid().ToString("N");
-    public HttpClient Client { get; private set; } = new();
+
+    public HttpClient Client { get; private set; }
+    public string Api1Name { get; private set; }
 
     public async Task InitializeAsync()
     {
@@ -28,14 +29,15 @@ public class IntegrationTestFactory : IAsyncLifetime
         var projectDir = CommonDirectoryPath.GetSolutionDirectory().DirectoryPath;
         var wiremockMappingsDir = Path.Combine(projectDir, "wiremock");
 
+        Api1Name = $"integration-tests-api1-{id}";
         api1Container = new ContainerBuilder()
             .WithImage("wiremock/wiremock:latest")
-            .WithName($"integration-tests-api1-{id}")
+            .WithName(Api1Name)
             .WithEnvironment(new Dictionary<string, string> { { "wiremock.service_name", "api1" } })
             .WithBindMount(wiremockMappingsDir, "/home/wiremock")
             .WithCommand("--port", "80", "--verbose", "--global-response-templating")
             .WithNetwork(network)
-            .WithNetworkAliases($"integration-tests-api1-{id}")
+            .WithNetworkAliases(Api1Name)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))
             .Build();
 
@@ -55,10 +57,8 @@ public class IntegrationTestFactory : IAsyncLifetime
             .WithEnvironment(new Dictionary<string, string>
             {
                 {"ASPNETCORE_ENVIRONMENT", "Production"},
-                {"ReverseProxy__Routes__X1__ClusterId", "X1"},
-                {"ReverseProxy__Routes__X1__Match__Path", "integration-tests-api1/{**catch-all}"},
-                {"ReverseProxy__Routes__X1__Transforms__0__PathPattern", "{**catch-all}"},
-                {"ReverseProxy__Clusters__X1__Destinations__destination1__Address", $"http://integration-tests-api1-{id}"},
+                {"Gateway__Compression__Level", "Fastest"},
+                {"Gateway__Services__0__Name", Api1Name },
             })
             .WithNetwork(network)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))

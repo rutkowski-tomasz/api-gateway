@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace Api.Gateway.IntegrationTests;
 
-public class PerformanceTests(IntegrationTestFactory factory, ITestOutputHelper outputHelper)
+public class PerformanceTests(IntegrationTestFactory factory)
     : IClassFixture<IntegrationTestFactory>
 {
     [Fact]
@@ -40,7 +40,7 @@ public class PerformanceTests(IntegrationTestFactory factory, ITestOutputHelper 
                         try
                         {
                             var requestStart = Stopwatch.GetTimestamp();
-                            var response = await factory.Client.GetAsync("/integration-tests-api1/echo", token);
+                            var response = await factory.Client.GetAsync($"/{factory.Api1Name}/echo", token);
                             var requestDuration = Stopwatch.GetElapsedTime(requestStart).TotalMilliseconds;
                             results.Add((response.IsSuccessStatusCode, requestDuration));
                         }

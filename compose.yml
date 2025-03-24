@@ -4,7 +4,10 @@ services:
     container_name: gateway
     build: .
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Gateway__Compression__Level=Fastest
+      - Gateway__Services__0__Name=api1
+      - Gateway__Services__1__Name=api2
     ports:
       - 80:80
       - 443:443

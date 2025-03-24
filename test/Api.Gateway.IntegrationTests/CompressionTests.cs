@@ -10,7 +10,7 @@ public class CompressionTests(IntegrationTestFactory factory)
     public async Task Service_ShouldSupportGzipCompression()
     {
         // Arrange
-        var request = new HttpRequestMessage(HttpMethod.Get, "/integration-tests-api1/echo");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"/{factory.Api1Name}/echo");
         request.Headers.AcceptEncoding.Add(new System.Net.Http.Headers.StringWithQualityHeaderValue("gzip"));
 
         // Act
@@ -35,7 +35,7 @@ public class CompressionTests(IntegrationTestFactory factory)
     public async Task Service_ShouldNotCompress_WhenGzipNotRequested()
     {
         // Act
-        var response = await factory.Client.GetAsync("/integration-tests-api1/echo");
+        var response = await factory.Client.GetAsync($"/{factory.Api1Name}/echo");
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);

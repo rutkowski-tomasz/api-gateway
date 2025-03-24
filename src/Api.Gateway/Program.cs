@@ -1,29 +1,22 @@
-using System.IO.Compression;
-using Microsoft.AspNetCore.ResponseCompression;
+using Api.Gateway;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services
-    .AddReverseProxy()
-    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+var gatewayOptions = builder.Configuration
+    .GetSection(GatewayOptions.SectionName)
+    .Get<GatewayOptions>()
+    ?? throw new ApplicationException($"{nameof(GatewayOptions)} can't be build");
 
-builder.Services.AddResponseCompression(options =>
-{
-    options.EnableForHttps = true;
-    options.Providers.Add<GzipCompressionProvider>();
-});
-
-builder.Services.Configure<GzipCompressionProviderOptions>(options =>
-    options.Level = CompressionLevel.Fastest
-);
+builder.Services.AddReverseProxyModule(gatewayOptions);
+builder.Services.AddCompressionModule(gatewayOptions);
 
 var app = builder.Build();
 
-app.UseResponseCompression();
+app.UseCompressionModule(gatewayOptions);
 
 app.MapGet("/health", () => Results.Ok());
 
-app.MapReverseProxy();
+app.UseReverseProxyModule();
 
 app.Run();
 
