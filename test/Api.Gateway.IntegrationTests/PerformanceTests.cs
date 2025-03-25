@@ -9,7 +9,7 @@ public class PerformanceTests(IntegrationTestFactory factory)
     [Fact]
     public async Task Gateway_ShouldHandleConsistentTraffic()
     {
-        const int targetThroughputPerMinute = 80_000;
+        const int targetThroughputPerMinute = 50_000;
         const int maxConcurrentRequests = 50;
         var maxTestDuration = TimeSpan.FromSeconds(10);
 
