@@ -28,8 +28,7 @@ docker-compose -f compose.yml up --build # Run locally
 - Add support for other compression algorithms
 - Implement Authentication and Authorization (JWT integration with OpenID Connect)
 - Statistics requests with HTTP codes and duration (requires db)
-- Certificate generation in Lets Encrypt
+- Certificate generation in Lets Encrypt (LettuceEncrypt)
 - Bring your own certificate
 - XSS protection
 - SQL injection protection
-- Change logger to Serilog

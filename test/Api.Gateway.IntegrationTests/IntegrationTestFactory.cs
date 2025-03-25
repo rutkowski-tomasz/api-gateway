@@ -37,7 +37,12 @@ public class IntegrationTestFactory : IAsyncLifetime
             .WithName(Api1Name)
             .WithEnvironment(new Dictionary<string, string> { { "wiremock.service_name", "api1" } })
             .WithBindMount(wiremockMappingsDir, "/home/wiremock")
-            .WithCommand("--port", "80", "--verbose", "--global-response-templating")
+            .WithCommand(
+                "--port=80",
+                "--verbose",
+                "--global-response-templating",
+                "--disable-banner"
+            )
             .WithNetwork(network)
             .WithNetworkAliases(Api1Name)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))
@@ -51,7 +56,12 @@ public class IntegrationTestFactory : IAsyncLifetime
             .WithName(Api2Name)
             .WithEnvironment(new Dictionary<string, string> { { "wiremock.service_name", "api2" } })
             .WithBindMount(wiremockMappingsDir, "/home/wiremock")
-            .WithCommand("--port", "80", "--verbose", "--global-response-templating")
+            .WithCommand(
+                "--port=80",
+                "--verbose",
+                "--global-response-templating",
+                "--disable-banner"
+            )
             .WithNetwork(network)
             .WithNetworkAliases(Api2Name)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))

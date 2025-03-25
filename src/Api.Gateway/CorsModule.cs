@@ -1,4 +1,6 @@
 
+using Serilog;
+
 namespace Api.Gateway;
 
 internal static class CorsModule 
@@ -15,6 +17,7 @@ internal static class CorsModule
         {
             foreach (var service in servicesWithCorsConfigured)
             {
+                Log.Information("CORS: {ServiceName} allowed from {Origins}", service.Name, service.Cors!.Origins);
                 options.AddPolicy(BuildCorsPolicyName(service)!, policy => policy
                     .WithOrigins(service.Cors!.Origins)
                     .AllowAnyHeader()

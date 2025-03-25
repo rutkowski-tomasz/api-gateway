@@ -1,5 +1,6 @@
 using System.IO.Compression;
 using Microsoft.AspNetCore.ResponseCompression;
+using Serilog;
 
 namespace Api.Gateway;
 
@@ -11,6 +12,11 @@ internal static class CompressionModule
         {
             return;
         }
+
+        Log.Information(
+            "Compression: Enabled with {Level} level",
+            gatewayOptions.Compression.Level
+        );
 
         services
             .AddResponseCompression(options =>
