@@ -19,4 +19,11 @@ public record ServiceOptions
 {
     public string Name { get; init; }
     public string? Prefix { get; init; }
+    public RateLimitingOptions? RateLimiting { get; init; }
+}
+
+public record RateLimitingOptions
+{
+    public int PermitLimit { get; init; }
+    public int WindowSeconds { get; init; }
 }

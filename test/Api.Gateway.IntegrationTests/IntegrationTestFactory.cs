@@ -77,6 +77,8 @@ public class IntegrationTestFactory : IAsyncLifetime
                 {"Gateway__Services__0__Name", Api1Name },
                 {"Gateway__Services__1__Name", Api2Name },
                 {"Gateway__Services__1__Prefix", "public"},
+                {"Gateway__Services__1__RateLimiting__PermitLimit", "10"},
+                {"Gateway__Services__1__RateLimiting__WindowSeconds", "60"},
             })
             .WithNetwork(network)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))

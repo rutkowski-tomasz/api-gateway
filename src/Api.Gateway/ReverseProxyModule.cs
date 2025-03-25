@@ -13,11 +13,13 @@ internal static class ReverseProxyModule
             var clusterId = $"{service.Name}-cluster";
             var prefix = !string.IsNullOrEmpty(service.Prefix) ? $"/{service.Prefix}" : string.Empty;
             var destinationAddress = $"http://{service.Name}{prefix}";
+            var rateLimiterPolicy = RateLimitingModule.BuildRateLimiterPolicyName(service);
 
             routes.Add(new RouteConfig()
             {
                 RouteId = $"{service.Name}-route",
                 ClusterId = clusterId,
+                RateLimiterPolicy = rateLimiterPolicy,
                 Match = new RouteMatch
                 {
                     Path = $"{service.Name}/{{**catch-all}}"
