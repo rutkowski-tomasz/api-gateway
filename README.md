@@ -9,6 +9,7 @@ Built with .NET 9 and YARP, designed to route and manage traffic to multiple mic
 - Reverse proxy functionality
 - Multiple service, path-based routing
 - Response compression
+- CORS configuration
 - Rate limiting
 - Docker support
 - CI integration with performance tests
@@ -31,5 +32,4 @@ docker-compose -f compose.yml up --build # Run locally
 - Bring your own certificate
 - XSS protection
 - SQL injection protection
-- CORS setup
 - Change logger to Serilog

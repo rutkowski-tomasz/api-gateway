@@ -1,4 +1,3 @@
-using System.IO.Compression;
 using Microsoft.AspNetCore.RateLimiting;
 
 namespace Api.Gateway;

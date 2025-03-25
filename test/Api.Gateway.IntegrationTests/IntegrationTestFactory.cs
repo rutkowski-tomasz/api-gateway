@@ -74,11 +74,15 @@ public class IntegrationTestFactory : IAsyncLifetime
             {
                 {"ASPNETCORE_ENVIRONMENT", "Production"},
                 {"Gateway__Compression__Level", "Fastest"},
+                // Api1
                 {"Gateway__Services__0__Name", Api1Name },
+                // Api2
                 {"Gateway__Services__1__Name", Api2Name },
                 {"Gateway__Services__1__Prefix", "public"},
                 {"Gateway__Services__1__RateLimiting__PermitLimit", "10"},
                 {"Gateway__Services__1__RateLimiting__WindowSeconds", "60"},
+                {"Gateway__Services__1__Cors__Origins__0", "http://localhost:3000"},
+                {"Gateway__Services__1__Cors__Origins__1", "http://localhost:5000"},
             })
             .WithNetwork(network)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))

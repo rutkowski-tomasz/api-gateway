@@ -11,3 +11,4 @@ X-Custom-Header: override-custom-header
 ###
 GET {{BaseUrl}}/api2/echo
 X-Custom-Header: override-custom-header
+Origin: http://localhost:5000

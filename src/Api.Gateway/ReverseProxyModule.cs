@@ -14,12 +14,14 @@ internal static class ReverseProxyModule
             var prefix = !string.IsNullOrEmpty(service.Prefix) ? $"/{service.Prefix}" : string.Empty;
             var destinationAddress = $"http://{service.Name}{prefix}";
             var rateLimiterPolicy = RateLimitingModule.BuildRateLimiterPolicyName(service);
+            var corsPolicy = CorsModule.BuildCorsPolicyName(service);
 
             routes.Add(new RouteConfig()
             {
                 RouteId = $"{service.Name}-route",
                 ClusterId = clusterId,
                 RateLimiterPolicy = rateLimiterPolicy,
+                CorsPolicy = corsPolicy,
                 Match = new RouteMatch
                 {
                     Path = $"{service.Name}/{{**catch-all}}"

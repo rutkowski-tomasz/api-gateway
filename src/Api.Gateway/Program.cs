@@ -10,15 +10,15 @@ var gatewayOptions = builder.Configuration
 builder.Services.AddReverseProxyModule(gatewayOptions);
 builder.Services.AddCompressionModule(gatewayOptions);
 builder.Services.AddRateLimitingModule(gatewayOptions);
+builder.Services.AddCorsModule(gatewayOptions);
 
 var app = builder.Build();
-
-app.UseCompressionModule(gatewayOptions);
 
 app.MapGet("/health", () => Results.Ok());
 
 app.UseRateLimitingModule(gatewayOptions);
-
+app.UseCorsModule(gatewayOptions);
+app.UseCompressionModule(gatewayOptions);
 app.UseReverseProxyModule();
 
 app.Run();

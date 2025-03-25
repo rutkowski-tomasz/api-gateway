@@ -20,10 +20,16 @@ public record ServiceOptions
     public string Name { get; init; }
     public string? Prefix { get; init; }
     public RateLimitingOptions? RateLimiting { get; init; }
+    public CorsOptions? Cors { get; init; }
 }
 
 public record RateLimitingOptions
 {
     public int PermitLimit { get; init; }
     public int WindowSeconds { get; init; }
+}
+
+public record CorsOptions
+{
+    public string[] Origins { get; init; }
 }
