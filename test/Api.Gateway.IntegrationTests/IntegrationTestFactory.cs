@@ -33,7 +33,8 @@ public class IntegrationTestFactory : IAsyncLifetime
 
         Api1Name = $"integration-tests-api1-{id}";
         api1Container = new ContainerBuilder()
-            .WithImage("wiremock/wiremock:latest")
+            .WithImage("wiremock/wiremock:3.9.0")
+            .WithImagePullPolicy(PullPolicy.Missing)
             .WithName(Api1Name)
             .WithEnvironment(new Dictionary<string, string> { { "wiremock.service_name", "api1" } })
             .WithBindMount(wiremockMappingsDir, "/home/wiremock")
@@ -45,14 +46,15 @@ public class IntegrationTestFactory : IAsyncLifetime
             )
             .WithNetwork(network)
             .WithNetworkAliases(Api1Name)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(80))
             .Build();
 
         await api1Container.StartAsync();
 
         Api2Name = $"integration-tests-api2-{id}";
         api2Container = new ContainerBuilder()
-            .WithImage("wiremock/wiremock:latest")
+            .WithImage("wiremock/wiremock:3.9.0")
+            .WithImagePullPolicy(PullPolicy.Missing)
             .WithName(Api2Name)
             .WithEnvironment(new Dictionary<string, string> { { "wiremock.service_name", "api2" } })
             .WithBindMount(wiremockMappingsDir, "/home/wiremock")
@@ -64,7 +66,7 @@ public class IntegrationTestFactory : IAsyncLifetime
             )
             .WithNetwork(network)
             .WithNetworkAliases(Api2Name)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(80))
             .Build();
 
         await api2Container.StartAsync();
@@ -95,7 +97,7 @@ public class IntegrationTestFactory : IAsyncLifetime
                 {"Gateway__Services__1__Cors__Origins__1", "http://localhost:5000"},
             })
             .WithNetwork(network)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilExternalTcpPortIsAvailable(80))
             .Build();
 
         await gatewayContainer.StartAsync();
@@ -114,6 +116,6 @@ public class IntegrationTestFactory : IAsyncLifetime
         await (api1Container?.DisposeAsync() ?? ValueTask.CompletedTask);
         await (api2Container?.DisposeAsync() ?? ValueTask.CompletedTask);
         await (network?.DisposeAsync() ?? ValueTask.CompletedTask);
-        Client.Dispose();
+        Client?.Dispose();
     }
 }
