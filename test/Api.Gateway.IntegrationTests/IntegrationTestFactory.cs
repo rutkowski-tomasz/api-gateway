@@ -97,7 +97,12 @@ public class IntegrationTestFactory : IAsyncLifetime
                 {"Gateway__Services__1__Cors__Origins__1", "http://localhost:5000"},
             })
             .WithNetwork(network)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilExternalTcpPortIsAvailable(80))
+            .WithWaitStrategy(Wait.ForUnixContainer()
+                .UntilHttpRequestIsSucceeded(r => r
+                    .ForPort(80)
+                    .ForPath("/health")
+                    .ForStatusCode(System.Net.HttpStatusCode.OK)
+                ))
             .Build();
 
         await gatewayContainer.StartAsync();
