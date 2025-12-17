@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Api.Gateway/bin/Debug/net9.0/Api.Gateway.dll",
+            "program": "${workspaceFolder}/src/Api.Gateway/bin/Debug/net10.0/Api.Gateway.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Api.Gateway",
             "stopAtEntry": false,
