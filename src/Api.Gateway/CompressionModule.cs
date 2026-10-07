@@ -22,8 +22,12 @@ internal static class CompressionModule
             .AddResponseCompression(options =>
             {
                 options.EnableForHttps = true;
+                options.Providers.Add<BrotliCompressionProvider>();
                 options.Providers.Add<GzipCompressionProvider>();
             })
+            .Configure<BrotliCompressionProviderOptions>(options =>
+                options.Level = gatewayOptions.Compression.Level
+            )
             .Configure<GzipCompressionProviderOptions>(options =>
                 options.Level = gatewayOptions.Compression.Level
             );

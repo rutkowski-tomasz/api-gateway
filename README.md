@@ -8,7 +8,7 @@ Built with .NET 9 and YARP, designed to route and manage traffic to multiple mic
 
 - Reverse proxy functionality
 - Multiple service, path-based routing
-- Response compression
+- Response compression (Brotli, gzip)
 - CORS configuration
 - Rate limiting
 - Docker support
@@ -25,7 +25,6 @@ docker-compose -f compose.yml up --build # Run locally
 ## 💡 Ideas
 
 - Response caching, use returned headers to cache response and not re-fetch it (requires db)
-- Add support for other compression algorithms
 - Implement Authentication and Authorization (JWT integration with OpenID Connect)
 - Statistics requests with HTTP codes and duration (requires db)
 - Certificate generation in Lets Encrypt (LettuceEncrypt)
