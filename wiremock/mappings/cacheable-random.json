@@ -1,0 +1,14 @@
+{
+    "request": { 
+        "method": "GET", 
+        "urlPath": "/cacheable-random" 
+    },
+    "response": {
+        "status": 200,
+        "body": "{{randomValue type='UUID'}}",
+        "headers": {
+            "Content-Type": "text/plain",
+            "Cache-Control": "public, max-age=60"
+        }
+    }
+}

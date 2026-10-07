@@ -1,0 +1,13 @@
+{
+    "request": { 
+        "method": "GET", 
+        "url": "/random" 
+    },
+    "response": {
+        "status": 200,
+        "body": "{{randomValue type='UUID'}}",
+        "headers": {
+            "Content-Type": "text/plain"
+        }
+    }
+}
