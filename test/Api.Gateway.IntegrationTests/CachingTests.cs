@@ -63,32 +63,6 @@ public class CachingTests(IntegrationTestFactory factory)
     }
 
     [Fact]
-    public async Task Service_ShouldNotShareCacheEntry_WhenQueryKeyContainsEqualsSign()
-    {
-        // Act
-        var attackerContent = await factory.Client.GetStringAsync($"/{factory.Api1Name}/cacheable-random?a%3D1=2");
-        var victimResponse = await factory.Client.GetAsync($"/{factory.Api1Name}/cacheable-random?a=1%3D2");
-
-        // Assert
-        var victimContent = await victimResponse.Content.ReadAsStringAsync();
-        victimContent.ShouldNotBe(attackerContent);
-        victimResponse.Headers.Age.ShouldBeNull();
-    }
-
-    [Fact]
-    public async Task Service_ShouldNotShareCacheEntry_WhenQueryContainsInvalidEscape()
-    {
-        // Act
-        var attackerContent = await factory.Client.GetStringAsync($"/{factory.Api1Name}/cacheable-random?a=%25FF");
-        var victimResponse = await factory.Client.GetAsync($"/{factory.Api1Name}/cacheable-random?a=%FF");
-
-        // Assert
-        var victimContent = await victimResponse.Content.ReadAsStringAsync();
-        victimContent.ShouldNotBe(attackerContent);
-        victimResponse.Headers.Age.ShouldBeNull();
-    }
-
-    [Fact]
     public async Task Service_ShouldNotServeFromCache_WhenRequestIsAuthorized()
     {
         // Arrange

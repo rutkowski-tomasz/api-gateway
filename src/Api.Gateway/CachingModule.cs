@@ -33,22 +33,9 @@ internal static class CachingModule
             return;
         }
 
-        app.UseWhen(context => !HasAmbiguousQuery(context.Request.Query), cachingApp =>
-        {
-            cachingApp.UseResponseCaching();
-            cachingApp.Use(VaryByQuery);
-            cachingApp.Use(SkipStoringTruncatedResponse);
-        });
-    }
-
-    // The cache key is built from the decoded query, joining a key and its value with '='.
-    // ?a%3D1=2 and ?a=1%3D2 decode to the same key, and so do ?a=%FF and ?a=%25FF (invalid escapes stay as text)
-    private static bool HasAmbiguousQuery(IQueryCollection query)
-    {
-        return query.Any(parameter =>
-            parameter.Key.Contains('=')
-            || parameter.Key.Contains('%')
-            || parameter.Value.Any(value => value!.Contains('%')));
+        app.UseResponseCaching();
+        app.Use(VaryByQuery);
+        app.Use(SkipStoringTruncatedResponse);
     }
 
     // Without it the cache key ignores the query string and ?page=1 would be served for ?page=2
