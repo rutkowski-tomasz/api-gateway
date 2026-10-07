@@ -8,6 +8,7 @@ public record GatewayOptions
 
     public CompressionOptions Compression { get; init; }
     public SecurityHeadersOptions SecurityHeaders { get; init; } = new();
+    public CachingOptions Caching { get; init; } = new();
     public List<ServiceOptions> Services { get; init; }
 }
 
@@ -20,6 +21,11 @@ public record SecurityHeadersOptions
 {
     public bool Enabled { get; init; }
     public string? ContentSecurityPolicy { get; init; }
+}
+
+public record CachingOptions
+{
+    public bool Enabled { get; init; }
 }
 
 public record ServiceOptions
