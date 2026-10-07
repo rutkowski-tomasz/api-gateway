@@ -42,6 +42,7 @@ public class IntegrationTestFactory : IAsyncLifetime
                 "--port=80",
                 "--verbose",
                 "--global-response-templating",
+                "--disable-gzip",
                 "--disable-banner"
             )
             .WithNetwork(network)
@@ -62,6 +63,7 @@ public class IntegrationTestFactory : IAsyncLifetime
                 "--port=80",
                 "--verbose",
                 "--global-response-templating",
+                "--disable-gzip",
                 "--disable-banner"
             )
             .WithNetwork(network)

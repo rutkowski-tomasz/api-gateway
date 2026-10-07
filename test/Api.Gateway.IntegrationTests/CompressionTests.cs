@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.IO.Compression;
 
 namespace Api.Gateway.IntegrationTests;
@@ -11,7 +12,7 @@ public class CompressionTests(IntegrationTestFactory factory)
     {
         // Arrange
         var request = new HttpRequestMessage(HttpMethod.Get, $"/{factory.Api1Name}/echo");
-        request.Headers.AcceptEncoding.Add(new System.Net.Http.Headers.StringWithQualityHeaderValue("gzip"));
+        request.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
 
         // Act
         var response = await factory.Client.SendAsync(request);
@@ -32,13 +33,51 @@ public class CompressionTests(IntegrationTestFactory factory)
     }
 
     [Fact]
-    public async Task Service_ShouldNotCompress_WhenGzipNotRequested()
+    public async Task Service_ShouldSupportBrotliCompression()
+    {
+        // Arrange
+        var request = new HttpRequestMessage(HttpMethod.Get, $"/{factory.Api1Name}/echo");
+        request.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("br"));
+
+        // Act
+        var response = await factory.Client.SendAsync(request);
+
+        var compressedBytes = await response.Content.ReadAsByteArrayAsync();
+        using var compressedStream = new MemoryStream(compressedBytes);
+        using var decompressStream = new BrotliStream(compressedStream, CompressionMode.Decompress);
+        using var reader = new StreamReader(decompressStream);
+        var decompressedContent = await reader.ReadToEndAsync();
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        response.Content.Headers.ContentEncoding.ShouldContain("br");
+        decompressedContent.ShouldBe("Hello world!");
+    }
+
+    [Fact]
+    public async Task Service_ShouldPreferBrotli_WhenBothRequested()
+    {
+        // Arrange
+        var request = new HttpRequestMessage(HttpMethod.Get, $"/{factory.Api1Name}/echo");
+        request.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+        request.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("br"));
+
+        // Act
+        var response = await factory.Client.SendAsync(request);
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        response.Content.Headers.ContentEncoding.ShouldBe(["br"]);
+    }
+
+    [Fact]
+    public async Task Service_ShouldNotCompress_WhenCompressionNotRequested()
     {
         // Act
         var response = await factory.Client.GetAsync($"/{factory.Api1Name}/echo");
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
-        response.Content.Headers.ContentEncoding.ShouldNotContain("gzip");
+        response.Content.Headers.ContentEncoding.ShouldBeEmpty();
     }
 }
