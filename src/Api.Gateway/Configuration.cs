@@ -7,12 +7,19 @@ public record GatewayOptions
     public const string SectionName = "Gateway";
 
     public CompressionOptions Compression { get; init; }
+    public SecurityHeadersOptions SecurityHeaders { get; init; } = new();
     public List<ServiceOptions> Services { get; init; }
 }
 
 public record CompressionOptions
 {
     public CompressionLevel Level { get; init; } = CompressionLevel.NoCompression;
+}
+
+public record SecurityHeadersOptions
+{
+    public bool Enabled { get; init; }
+    public string? ContentSecurityPolicy { get; init; }
 }
 
 public record ServiceOptions

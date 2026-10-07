@@ -30,6 +30,7 @@ var app = builder.Build();
 app.MapGet(healthPath, () => Results.Ok());
 
 app.UseSerilogRequestLogging();
+app.UseSecurityHeadersModule(gatewayOptions);
 app.UseRateLimitingModule(gatewayOptions);
 app.UseCorsModule(gatewayOptions);
 app.UseCompressionModule(gatewayOptions);
