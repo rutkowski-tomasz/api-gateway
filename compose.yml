@@ -8,6 +8,7 @@ services:
       - Gateway__Compression__Level=Fastest
       - Gateway__SecurityHeaders__Enabled=true
       - Gateway__SecurityHeaders__ContentSecurityPolicy=default-src 'none'
+      - Gateway__Caching__Enabled=true
       - Gateway__Services__0__Name=api1
       - Gateway__Services__1__Name=api2
       - Gateway__Services__1__Prefix=public
