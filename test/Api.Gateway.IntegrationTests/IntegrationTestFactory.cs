@@ -90,6 +90,7 @@ public class IntegrationTestFactory : IAsyncLifetime
                 {"Gateway__Compression__Level", "Fastest"},
                 {"Gateway__SecurityHeaders__Enabled", "true"},
                 {"Gateway__SecurityHeaders__ContentSecurityPolicy", "default-src 'none'"},
+                {"Gateway__Caching__Enabled", "true"},
                 // Api1
                 {"Gateway__Services__0__Name", Api1Name },
                 // Api2
