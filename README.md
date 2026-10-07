@@ -10,6 +10,7 @@ Built with .NET 9 and YARP, designed to route and manage traffic to multiple mic
 - Multiple service, path-based routing
 - Response compression (Brotli, gzip)
 - CORS configuration
+- Security headers (`nosniff`, `X-Frame-Options`, `Referrer-Policy`, optional CSP)
 - Rate limiting
 - Docker support
 - CI integration with performance tests
@@ -29,5 +30,4 @@ docker-compose -f compose.yml up --build # Run locally
 - Statistics requests with HTTP codes and duration (requires db)
 - Certificate generation in Lets Encrypt (LettuceEncrypt)
 - Bring your own certificate
-- XSS protection
 - SQL injection protection
