@@ -15,3 +15,6 @@ Origin: http://localhost:5000
 
 ###
 GET {{BaseUrl}}/api1/framed
+
+###
+GET {{BaseUrl}}/api1/cacheable-random

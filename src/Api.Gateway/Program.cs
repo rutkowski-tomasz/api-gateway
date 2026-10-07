@@ -24,6 +24,7 @@ builder.Services.AddReverseProxyModule(gatewayOptions);
 builder.Services.AddCompressionModule(gatewayOptions);
 builder.Services.AddRateLimitingModule(gatewayOptions);
 builder.Services.AddCorsModule(gatewayOptions);
+builder.Services.AddCachingModule(gatewayOptions);
 
 var app = builder.Build();
 
@@ -34,6 +35,7 @@ app.UseSecurityHeadersModule(gatewayOptions);
 app.UseRateLimitingModule(gatewayOptions);
 app.UseCorsModule(gatewayOptions);
 app.UseCompressionModule(gatewayOptions);
+app.UseCachingModule(gatewayOptions);
 app.UseReverseProxyModule();
 
 app.Run();
