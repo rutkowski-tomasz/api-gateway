@@ -17,7 +17,7 @@ builder.Services.AddSerilog(config => config
     .WriteTo.Console()
     .Filter.ByExcluding(logEvent => 
         logEvent.Properties.TryGetValue("RequestPath", out var requestPath) && 
-        requestPath.ToString().Contains(healthPath)
+        (requestPath.ToString().Contains(healthPath) || requestPath.ToString().Contains(MetricsModule.MetricsPath))
     )
 );
 builder.Services.AddReverseProxyModule(gatewayOptions);
@@ -25,10 +25,12 @@ builder.Services.AddCompressionModule(gatewayOptions);
 builder.Services.AddRateLimitingModule(gatewayOptions);
 builder.Services.AddCorsModule(gatewayOptions);
 builder.Services.AddCachingModule(gatewayOptions);
+builder.Services.AddMetricsModule(gatewayOptions);
 
 var app = builder.Build();
 
 app.MapGet(healthPath, () => Results.Ok());
+app.UseMetricsModule(gatewayOptions);
 
 app.UseSerilogRequestLogging();
 app.UseSecurityHeadersModule(gatewayOptions);
