@@ -2,7 +2,7 @@
 
 Lightweight performant API Gateway 
 
-Built with .NET 9 and YARP, designed to route and manage traffic to multiple microservices within docker/kubernetes network.
+Built with .NET 10 and YARP, designed to route and manage traffic to multiple microservices within docker/kubernetes network.
 
 ## 🚀 Features
 
@@ -13,6 +13,7 @@ Built with .NET 9 and YARP, designed to route and manage traffic to multiple mic
 - Security headers (`nosniff`, `X-Frame-Options`, `Referrer-Policy`, optional CSP)
 - Rate limiting
 - Response caching (in memory, driven by downstream `Cache-Control` headers)
+- Prometheus metrics at `/metrics`: request count and duration per service and status code (block `/metrics` at your ingress)
 - Docker support
 - CI integration with performance tests
 
@@ -27,7 +28,9 @@ docker-compose -f compose.yml up --build # Run locally
 ## 💡 Ideas
 
 - Implement Authentication and Authorization (JWT integration with OpenID Connect)
-- Statistics requests with HTTP codes and duration (requires db)
-- Certificate generation in Lets Encrypt (LettuceEncrypt)
 - Bring your own certificate
-- SQL injection protection
+
+## 🚫 Out of scope
+
+- Automatic Let's Encrypt certificates: LettuceEncrypt is archived; use an ingress (cert-manager, Caddy) for automatic issuance
+- SQL injection protection: pattern filtering at the gateway is easy to bypass and blocks valid input; use parameterized queries in the services or a dedicated WAF (OWASP CRS)
